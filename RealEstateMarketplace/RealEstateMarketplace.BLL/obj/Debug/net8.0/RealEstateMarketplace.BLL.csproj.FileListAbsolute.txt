@@ -13,3 +13,4 @@ C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.BLL\obj\D
 C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.BLL\obj\Debug\net8.0\refint\RealEstateMarketplace.BLL.dll
 C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.BLL\obj\Debug\net8.0\RealEstateMarketplace.BLL.pdb
 C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.BLL\obj\Debug\net8.0\ref\RealEstateMarketplace.BLL.dll
+C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.BLL\obj\Debug\net8.0\RealEstateMarketplace.BLL.sourcelink.json

@@ -271,7 +271,7 @@ namespace RealEstateMarketplace.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 26, 1, 53, 47, 629, DateTimeKind.Utc).AddTicks(7663),
+                            CreatedAt = new DateTime(2026, 1, 27, 12, 58, 59, 538, DateTimeKind.Utc).AddTicks(84),
                             Description = "Residential properties including houses and apartments",
                             IconClass = "fa-home",
                             IsActive = true,
@@ -280,7 +280,7 @@ namespace RealEstateMarketplace.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 26, 1, 53, 47, 629, DateTimeKind.Utc).AddTicks(7668),
+                            CreatedAt = new DateTime(2026, 1, 27, 12, 58, 59, 538, DateTimeKind.Utc).AddTicks(92),
                             Description = "Commercial properties for business use",
                             IconClass = "fa-building",
                             IsActive = true,
@@ -289,7 +289,7 @@ namespace RealEstateMarketplace.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2026, 1, 26, 1, 53, 47, 629, DateTimeKind.Utc).AddTicks(7670),
+                            CreatedAt = new DateTime(2026, 1, 27, 12, 58, 59, 538, DateTimeKind.Utc).AddTicks(94),
                             Description = "Industrial properties and warehouses",
                             IconClass = "fa-industry",
                             IsActive = true,
@@ -298,7 +298,7 @@ namespace RealEstateMarketplace.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2026, 1, 26, 1, 53, 47, 629, DateTimeKind.Utc).AddTicks(7672),
+                            CreatedAt = new DateTime(2026, 1, 27, 12, 58, 59, 538, DateTimeKind.Utc).AddTicks(95),
                             Description = "Vacant land and plots",
                             IconClass = "fa-map",
                             IsActive = true,
@@ -528,6 +528,38 @@ namespace RealEstateMarketplace.DAL.Migrations
                     b.HasIndex("PropertyId");
 
                     b.ToTable("PropertyImages");
+                });
+
+            modelBuilder.Entity("RealEstateMarketplace.DAL.Entities.SiteSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SiteSettings");
                 });
 
             modelBuilder.Entity("RealEstateMarketplace.DAL.Entities.User", b =>

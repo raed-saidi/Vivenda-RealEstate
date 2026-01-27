@@ -12,3 +12,4 @@ C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.DAL\obj\D
 C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.DAL\obj\Debug\net8.0\RealEstateMarketplace.DAL.pdb
 C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.DAL\obj\Debug\net8.0\RealEstateMarketplace.DAL.genruntimeconfig.cache
 C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.DAL\obj\Debug\net8.0\ref\RealEstateMarketplace.DAL.dll
+C:\Users\Raed\Desktop\.net\RealEstateMarketplace\RealEstateMarketplace.DAL\obj\Debug\net8.0\RealEstateMarketplace.DAL.sourcelink.json

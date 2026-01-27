@@ -43,6 +43,8 @@ builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAmenityService, AmenityService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IInquiryService, InquiryService>();
+builder.Services.AddScoped<ISettingsService, SettingsService>();
 
 var app = builder.Build();
 
@@ -106,6 +108,24 @@ using (var scope = app.Services.CreateScope())
         
         await userManager.CreateAsync(adminUser, "Admin123!");
         await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+    
+    // Seed default site settings
+    if (!context.SiteSettings.Any())
+    {
+        context.SiteSettings.AddRange(
+            new SiteSettings { Key = "site_name", Value = "Real Estate Marketplace", Description = "Website name", Category = "General" },
+            new SiteSettings { Key = "site_description", Value = "Find your dream property", Description = "Website description", Category = "General" },
+            new SiteSettings { Key = "contact_email", Value = "contact@realestate.com", Description = "Contact email address", Category = "General" },
+            new SiteSettings { Key = "contact_phone", Value = "+1 234 567 890", Description = "Contact phone number", Category = "General" },
+            new SiteSettings { Key = "contact_address", Value = "123 Main St, City, Country", Description = "Office address", Category = "General" },
+            new SiteSettings { Key = "facebook_url", Value = "https://facebook.com", Description = "Facebook page URL", Category = "Social" },
+            new SiteSettings { Key = "twitter_url", Value = "https://twitter.com", Description = "Twitter profile URL", Category = "Social" },
+            new SiteSettings { Key = "instagram_url", Value = "https://instagram.com", Description = "Instagram profile URL", Category = "Social" },
+            new SiteSettings { Key = "meta_keywords", Value = "real estate, property, homes, apartments", Description = "SEO keywords", Category = "SEO" },
+            new SiteSettings { Key = "google_analytics_id", Value = "", Description = "Google Analytics tracking ID", Category = "SEO" }
+        );
+        await context.SaveChangesAsync();
     }
 }
 

@@ -17,6 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<PropertyAmenity> PropertyAmenities { get; set; }
     public DbSet<Favorite> Favorites { get; set; }
     public DbSet<Inquiry> Inquiries { get; set; }
+    public DbSet<SiteSettings> SiteSettings { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
