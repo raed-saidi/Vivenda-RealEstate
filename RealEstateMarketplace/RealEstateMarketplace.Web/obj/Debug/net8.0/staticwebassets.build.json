@@ -1,19 +1,11 @@
 {
   "Version": 1,
-  "Hash": "GMKsBwhn6zTqj1wptExKWv7yOq3hOAaTt/5NlWZ1MfA=",
+  "Hash": "GeFi0+XAvFsB2FEbDQyXJZoTV+H9DucksTZI0FUHozo=",
   "Source": "RealEstateMarketplace.Web",
   "BasePath": "_content/RealEstateMarketplace.Web",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [
-    {
-      "Name": "RealEstateMarketplace.Web\\wwwroot",
-      "Source": "RealEstateMarketplace.Web",
-      "ContentRoot": "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.Web\\wwwroot\\",
-      "BasePath": "_content/RealEstateMarketplace.Web",
-      "Pattern": "**"
-    }
-  ],
+  "DiscoveryPatterns": [],
   "Assets": []
 }

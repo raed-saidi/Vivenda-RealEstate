@@ -183,21 +183,39 @@
                         <h5 class="mb-0"><i class="fas fa-paper-plane me-2"></i>Send Inquiry</h5>
                     </div>
                     <div class="card-body">
-                        <form>
+                        @if (TempData["Success"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                @TempData["Success"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        }
+                        @if (TempData["Error"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @TempData["Error"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        }
+                        <form asp-controller="Properties" asp-action="SendInquiry" method="post">
+                            <input type="hidden" name="PropertyId" value="@Model.Id" />
                             <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="Your Name" required>
+                                <input type="text" class="form-control" name="SenderName" placeholder="Your Name" required>
                             </div>
                             <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Your Email" required>
+                                <input type="email" class="form-control" name="SenderEmail" placeholder="Your Email" required>
                             </div>
                             <div class="mb-3">
-                                <input type="tel" class="form-control" placeholder="Your Phone">
+                                <input type="tel" class="form-control" name="SenderPhone" placeholder="Your Phone">
                             </div>
                             <div class="mb-3">
-                                <textarea class="form-control" rows="4" placeholder="I'm interested in this property..."></textarea>
+                                <input type="text" class="form-control" name="Subject" placeholder="Subject" value="Inquiry about @Model.Title" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="4" name="Message" placeholder="I'm interested in this property..." required></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">
-                                Send Inquiry
+                                <i class="fas fa-paper-plane me-2"></i>Send Inquiry
                             </button>
                         </form>
                     </div>

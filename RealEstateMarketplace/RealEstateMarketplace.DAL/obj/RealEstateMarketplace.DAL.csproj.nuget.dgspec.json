@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj": {}
+    "C:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj": {
+    "C:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj",
         "projectName": "RealEstateMarketplace.DAL",
-        "projectPath": "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj",
-        "packagesPath": "C:\\Users\\Raed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\obj\\",
+        "projectPath": "C:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj",
+        "packagesPath": "C:\\Users\\yosrk\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Raed\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\yosrk\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"

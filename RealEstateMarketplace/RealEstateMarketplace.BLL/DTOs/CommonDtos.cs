@@ -26,6 +26,10 @@ public class InquiryDto
     public string? SenderName { get; set; }
     public string? SenderEmail { get; set; }
     public string? SenderPhone { get; set; }
+    public string? SenderId { get; set; }
+    public string ReceiverId { get; set; } = string.Empty;
+    public string ReceiverName { get; set; } = string.Empty;
+    public string? ReceiverEmail { get; set; }
     public bool IsRead { get; set; }
     public DateTime CreatedAt { get; set; }
     public int PropertyId { get; set; }
@@ -39,6 +43,8 @@ public class CreateInquiryDto
     public string? SenderName { get; set; }
     public string? SenderEmail { get; set; }
     public string? SenderPhone { get; set; }
+    public string? SenderId { get; set; }
+    public string ReceiverId { get; set; } = string.Empty;
     public int PropertyId { get; set; }
 }
 
