@@ -1,0 +1,108 @@
+@model IEnumerable<InquiryDto>
+@{
+    ViewData["Title"] = "My Received Inquiries";
+    var unreadCount = ViewBag.UnreadCount ?? 0;
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>
+                    <i class="fas fa-inbox me-2"></i>My Received Inquiries
+                    @if (unreadCount > 0)
+                    {
+                        <span class="badge bg-danger">@unreadCount Unread</span>
+                    }
+                </h2>
+                <a asp-controller="Properties" asp-action="Index" class="btn btn-outline-primary">
+                    <i class="fas fa-search me-2"></i>Browse Properties
+                </a>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="card shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">No Inquiries Received Yet</h4>
+                        <p class="text-muted">When people inquire about your properties, they will appear here.</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Property</th>
+                                        <th>Subject</th>
+                                        <th>From</th>
+                                        <th>Contact</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var inquiry in Model)
+                                    {
+                                        <tr class="@(!inquiry.IsRead ? "table-primary" : "")">
+                                            <td>
+                                                <a asp-controller="Properties" asp-action="Details" asp-route-id="@inquiry.PropertyId" class="text-decoration-none">
+                                                    @inquiry.PropertyTitle
+                                                </a>
+                                            </td>
+                                            <td>
+                                                @if (!inquiry.IsRead)
+                                                {
+                                                    <strong>@inquiry.Subject</strong>
+                                                }
+                                                else
+                                                {
+                                                    @inquiry.Subject
+                                                }
+                                            </td>
+                                            <td>@inquiry.SenderName</td>
+                                            <td>
+                                                <small>
+                                                    @if (!string.IsNullOrEmpty(inquiry.SenderEmail))
+                                                    {
+                                                        <div><i class="fas fa-envelope me-1"></i>@inquiry.SenderEmail</div>
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(inquiry.SenderPhone))
+                                                    {
+                                                        <div><i class="fas fa-phone me-1"></i>@inquiry.SenderPhone</div>
+                                                    }
+                                                </small>
+                                            </td>
+                                            <td>@inquiry.CreatedAt.ToString("MMM dd, yyyy HH:mm")</td>
+                                            <td>
+                                                @if (inquiry.IsRead)
+                                                {
+                                                    <span class="badge bg-success">Read</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning text-dark">New</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a asp-action="Details" asp-route-id="@inquiry.Id" class="btn btn-sm btn-outline-primary" title="View Details">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

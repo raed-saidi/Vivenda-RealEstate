@@ -1109,7 +1109,10 @@
         },
         "runtime": {
           "bin/placeholder/RealEstateMarketplace.BLL.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "RealEstateMarketplace.DAL/1.0.0": {
         "type": "project",
@@ -2740,19 +2743,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Raed\\.nuget\\packages\\": {}
+    "C:\\Users\\yosrk\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.Web\\RealEstateMarketplace.Web.csproj",
+      "projectUniqueName": "c:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.Web\\RealEstateMarketplace.Web.csproj",
       "projectName": "RealEstateMarketplace.Web",
-      "projectPath": "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.Web\\RealEstateMarketplace.Web.csproj",
-      "packagesPath": "C:\\Users\\Raed\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.Web\\obj\\",
+      "projectPath": "c:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.Web\\RealEstateMarketplace.Web.csproj",
+      "packagesPath": "C:\\Users\\yosrk\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.Web\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Raed\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\yosrk\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2764,11 +2767,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.BLL\\RealEstateMarketplace.BLL.csproj": {
-              "projectPath": "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.BLL\\RealEstateMarketplace.BLL.csproj"
+            "c:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.BLL\\RealEstateMarketplace.BLL.csproj": {
+              "projectPath": "c:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.BLL\\RealEstateMarketplace.BLL.csproj"
             },
-            "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj": {
-              "projectPath": "C:\\Users\\Raed\\Desktop\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj"
+            "c:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj": {
+              "projectPath": "c:\\Users\\yosrk\\.net\\RealEstateMarketplace\\RealEstateMarketplace.DAL\\RealEstateMarketplace.DAL.csproj"
             }
           }
         }

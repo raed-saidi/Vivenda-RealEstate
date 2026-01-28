@@ -1,6 +1,7 @@
 @model PropertyFormViewModel
 @{
     ViewData["Title"] = "Add Property";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     var categories = ViewBag.Categories as SelectList;
     var amenities = ViewBag.Amenities as IEnumerable<AmenityDto> ?? Enumerable.Empty<AmenityDto>();
     var propertyTypes = ViewBag.PropertyTypes as SelectList;

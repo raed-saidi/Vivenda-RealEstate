@@ -26,6 +26,10 @@ public class InquiryDto
     public string? SenderName { get; set; }
     public string? SenderEmail { get; set; }
     public string? SenderPhone { get; set; }
+    public string? SenderId { get; set; }
+    public string ReceiverId { get; set; } = string.Empty;
+    public string ReceiverName { get; set; } = string.Empty;
+    public string? ReceiverEmail { get; set; }
     public bool IsRead { get; set; }
     public DateTime CreatedAt { get; set; }
     public int PropertyId { get; set; }
@@ -39,6 +43,8 @@ public class CreateInquiryDto
     public string? SenderName { get; set; }
     public string? SenderEmail { get; set; }
     public string? SenderPhone { get; set; }
+    public string? SenderId { get; set; }
+    public string ReceiverId { get; set; } = string.Empty;
     public int PropertyId { get; set; }
 }
 
@@ -85,4 +91,17 @@ public class SettingsDto
     public string? Description { get; set; }
     public string Category { get; set; } = "General";
     public DateTime UpdatedAt { get; set; }
+}
+
+public class ChatbotMessageDto
+{
+    public string Message { get; set; } = string.Empty;
+    public string? Context { get; set; }
+}
+
+public class ChatbotResponseDto
+{
+    public string Response { get; set; } = string.Empty;
+    public List<PropertyDto>? SuggestedProperties { get; set; }
+    public bool Success { get; set; } = true;
 }

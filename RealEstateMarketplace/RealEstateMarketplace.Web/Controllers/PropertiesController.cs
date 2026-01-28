@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateMarketplace.BLL.DTOs;
 using RealEstateMarketplace.BLL.Services;
+using RealEstateMarketplace.DAL.Entities;
 
 namespace RealEstateMarketplace.Web.Controllers;
 
@@ -9,15 +12,21 @@ public class PropertiesController : Controller
     private readonly IPropertyService _propertyService;
     private readonly ICategoryService _categoryService;
     private readonly IAmenityService _amenityService;
+    private readonly IInquiryService _inquiryService;
+    private readonly UserManager<User> _userManager;
 
     public PropertiesController(
-        IPropertyService propertyService, 
+        IPropertyService propertyService,
         ICategoryService categoryService,
-        IAmenityService amenityService)
+        IAmenityService amenityService,
+        IInquiryService inquiryService,
+        UserManager<User> userManager)
     {
         _propertyService = propertyService;
         _categoryService = categoryService;
         _amenityService = amenityService;
+        _inquiryService = inquiryService;
+        _userManager = userManager;
     }
 
     public async Task<IActionResult> Index(PropertySearchDto? search)
@@ -69,5 +78,46 @@ public class PropertiesController : Controller
                search.MaxPrice.HasValue ||
                search.MinBedrooms.HasValue ||
                search.MaxBedrooms.HasValue;
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SendInquiry(CreateInquiryDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] = "Please fill all required fields.";
+            return RedirectToAction(nameof(Details), new { id = dto.PropertyId });
+        }
+
+        try
+        {
+            // Get the property to find the receiver (property owner)
+            var property = await _propertyService.GetPropertyByIdAsync(dto.PropertyId);
+            if (property == null)
+            {
+                TempData["Error"] = "Property not found.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Set receiver as property owner
+            dto.ReceiverId = property.UserId;
+
+            // If user is logged in, set sender ID
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                dto.SenderId = user?.Id;
+            }
+
+            await _inquiryService.CreateInquiryAsync(dto);
+            TempData["Success"] = "Your inquiry has been sent successfully! The agent will contact you soon.";
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = $"Failed to send inquiry: {ex.Message}";
+        }
+
+        return RedirectToAction(nameof(Details), new { id = dto.PropertyId });
     }
 }
