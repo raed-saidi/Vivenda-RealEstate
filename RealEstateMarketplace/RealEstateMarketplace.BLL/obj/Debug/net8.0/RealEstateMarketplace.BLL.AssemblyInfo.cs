@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RealEstateMarketplace.BLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+835d8c273fa26816c43f5a1445c9a4f56abd7a38")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d5aafd9eb46a4251ba3b6ff5899707a925be5073")]
 [assembly: System.Reflection.AssemblyProductAttribute("RealEstateMarketplace.BLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RealEstateMarketplace.BLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

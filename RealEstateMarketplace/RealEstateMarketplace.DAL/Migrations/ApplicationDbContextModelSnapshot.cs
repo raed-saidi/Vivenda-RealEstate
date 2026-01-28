@@ -239,6 +239,42 @@ namespace RealEstateMarketplace.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("RealEstateMarketplace.DAL.Entities.AuditLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Entity")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EntityId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AuditLogs");
+                });
+
             modelBuilder.Entity("RealEstateMarketplace.DAL.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -271,7 +307,7 @@ namespace RealEstateMarketplace.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 27, 12, 58, 59, 538, DateTimeKind.Utc).AddTicks(84),
+                            CreatedAt = new DateTime(2026, 1, 28, 13, 2, 7, 613, DateTimeKind.Utc).AddTicks(9097),
                             Description = "Residential properties including houses and apartments",
                             IconClass = "fa-home",
                             IsActive = true,
@@ -280,7 +316,7 @@ namespace RealEstateMarketplace.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 27, 12, 58, 59, 538, DateTimeKind.Utc).AddTicks(92),
+                            CreatedAt = new DateTime(2026, 1, 28, 13, 2, 7, 613, DateTimeKind.Utc).AddTicks(9102),
                             Description = "Commercial properties for business use",
                             IconClass = "fa-building",
                             IsActive = true,
@@ -289,7 +325,7 @@ namespace RealEstateMarketplace.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2026, 1, 27, 12, 58, 59, 538, DateTimeKind.Utc).AddTicks(94),
+                            CreatedAt = new DateTime(2026, 1, 28, 13, 2, 7, 613, DateTimeKind.Utc).AddTicks(9105),
                             Description = "Industrial properties and warehouses",
                             IconClass = "fa-industry",
                             IsActive = true,
@@ -298,7 +334,7 @@ namespace RealEstateMarketplace.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2026, 1, 27, 12, 58, 59, 538, DateTimeKind.Utc).AddTicks(95),
+                            CreatedAt = new DateTime(2026, 1, 28, 13, 2, 7, 613, DateTimeKind.Utc).AddTicks(9106),
                             Description = "Vacant land and plots",
                             IconClass = "fa-map",
                             IsActive = true,
@@ -591,6 +627,9 @@ namespace RealEstateMarketplace.DAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsSuperAdmin")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -695,6 +734,17 @@ namespace RealEstateMarketplace.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RealEstateMarketplace.DAL.Entities.AuditLog", b =>
+                {
+                    b.HasOne("RealEstateMarketplace.DAL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RealEstateMarketplace.DAL.Entities.Favorite", b =>

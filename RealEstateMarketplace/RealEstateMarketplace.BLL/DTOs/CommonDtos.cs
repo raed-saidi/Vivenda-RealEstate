@@ -92,3 +92,16 @@ public class SettingsDto
     public string Category { get; set; } = "General";
     public DateTime UpdatedAt { get; set; }
 }
+
+public class ChatbotMessageDto
+{
+    public string Message { get; set; } = string.Empty;
+    public string? Context { get; set; }
+}
+
+public class ChatbotResponseDto
+{
+    public string Response { get; set; } = string.Empty;
+    public List<PropertyDto>? SuggestedProperties { get; set; }
+    public bool Success { get; set; } = true;
+}

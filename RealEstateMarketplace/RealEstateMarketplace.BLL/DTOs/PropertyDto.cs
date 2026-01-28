@@ -23,6 +23,9 @@ public class PropertyDto
     public DateTime CreatedAt { get; set; }
     public string UserId { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
+    public string? AgentName { get; set; }
+    public string? AgentEmail { get; set; }
+    public string? AgentPhone { get; set; }
     public string? CategoryName { get; set; }
     public int? CategoryId { get; set; }
     public List<string> ImageUrls { get; set; } = new();

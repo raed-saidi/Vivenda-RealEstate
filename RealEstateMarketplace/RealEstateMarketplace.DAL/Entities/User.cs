@@ -9,8 +9,7 @@ public class User : IdentityUser
     public string? ProfileImageUrl { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
-    public bool IsActive { get; set; } = true;
-    
+    public bool IsActive { get; set; } = true;    public bool IsSuperAdmin { get; set; } = false;    
     // Navigation properties
     public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
     public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();

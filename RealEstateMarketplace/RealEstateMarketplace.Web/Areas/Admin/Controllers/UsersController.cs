@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RealEstateMarketplace.BLL.DTOs;
 using RealEstateMarketplace.DAL.Entities;
+using RealEstateMarketplace.BLL.DTOs;
 
 namespace RealEstateMarketplace.Web.Areas.Admin.Controllers;
 
@@ -12,36 +12,34 @@ namespace RealEstateMarketplace.Web.Areas.Admin.Controllers;
 public class UsersController : Controller
 {
     private readonly UserManager<User> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public UsersController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+    public UsersController(UserManager<User> userManager)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
     }
 
     public async Task<IActionResult> Index()
     {
         var users = await _userManager.Users.ToListAsync();
         var userDtos = new List<UserDto>();
-        
+
         foreach (var user in users)
         {
             var roles = await _userManager.GetRolesAsync(user);
             userDtos.Add(new UserDto
             {
                 Id = user.Id,
-                Email = user.Email ?? "",
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 ProfileImageUrl = user.ProfileImageUrl,
-                CreatedAt = user.CreatedAt,
                 IsActive = user.IsActive,
+                CreatedAt = user.CreatedAt,
                 Roles = roles.ToList()
             });
         }
-        
+
         return View(userDtos);
     }
 
@@ -53,24 +51,30 @@ public class UsersController : Controller
         {
             return Json(new { success = false });
         }
-        
+
         user.IsActive = !user.IsActive;
         await _userManager.UpdateAsync(user);
-        
+
         return Json(new { success = true, isActive = user.IsActive });
     }
 
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
-        if (user == null)
+        var currentUserId = _userManager.GetUserId(User);
+        if (currentUserId == id)
         {
-            return Json(new { success = false });
+            TempData["ErrorMessage"] = "You cannot delete your own account.";
+            return RedirectToAction(nameof(Index));
         }
-        
-        await _userManager.DeleteAsync(user);
-        TempData["Success"] = "User deleted successfully!";
+
+        var user = await _userManager.FindByIdAsync(id);
+        if (user != null)
+        {
+            await _userManager.DeleteAsync(user);
+            TempData["SuccessMessage"] = "User deleted successfully.";
+        }
+
         return RedirectToAction(nameof(Index));
     }
 }
