@@ -1,0 +1,158 @@
+@model PropertyFormViewModel
+@{
+    ViewData["Title"] = "Edit Property";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var categories = ViewBag.Categories as SelectList;
+    var amenities = ViewBag.Amenities as IEnumerable<AmenityDto> ?? Enumerable.Empty<AmenityDto>();
+    var propertyTypes = ViewBag.PropertyTypes as SelectList;
+    var listingTypes = ViewBag.ListingTypes as SelectList;
+    var statuses = ViewBag.Statuses as SelectList;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0">Edit Property</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to List
+    </a>
+</div>
+
+<div class="card table-card">
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            
+            <div class="row">
+                <!-- Basic Info -->
+                <div class="col-md-8 mb-4">
+                    <h5 class="border-bottom pb-2 mb-3">Basic Information</h5>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">Title *</label>
+                        <input asp-for="Title" class="form-control">
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Description *</label>
+                        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="Price" class="form-label">Price ($) *</label>
+                            <input asp-for="Price" class="form-control" type="number" step="0.01">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="PropertyType" class="form-label">Property Type *</label>
+                            <select asp-for="PropertyType" asp-items="propertyTypes" class="form-select"></select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="ListingType" class="form-label">Listing Type *</label>
+                            <select asp-for="ListingType" asp-items="listingTypes" class="form-select"></select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="Status" class="form-label">Status *</label>
+                            <select asp-for="Status" asp-items="statuses" class="form-select"></select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Image & Settings -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="border-bottom pb-2 mb-3">Settings</h5>
+                    <div class="mb-3">
+                        <label asp-for="MainImageUrl" class="form-label">Image URL</label>
+                        <input asp-for="MainImageUrl" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CategoryId" class="form-label">Category</label>
+                        <select asp-for="CategoryId" asp-items="categories" class="form-select">
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input asp-for="IsFeatured" class="form-check-input">
+                        <label asp-for="IsFeatured" class="form-check-label">Featured Property</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Location -->
+            <h5 class="border-bottom pb-2 mb-3">Location</h5>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label asp-for="Address" class="form-label">Address *</label>
+                    <input asp-for="Address" class="form-control">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label asp-for="City" class="form-label">City *</label>
+                    <input asp-for="City" class="form-control">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label asp-for="State" class="form-label">State *</label>
+                    <input asp-for="State" class="form-control">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label asp-for="ZipCode" class="form-label">Zip Code *</label>
+                    <input asp-for="ZipCode" class="form-control">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label asp-for="Country" class="form-label">Country *</label>
+                    <input asp-for="Country" class="form-control">
+                </div>
+            </div>
+            
+            <!-- Details -->
+            <h5 class="border-bottom pb-2 mb-3 mt-3">Property Details</h5>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label asp-for="Bedrooms" class="form-label">Bedrooms</label>
+                    <input asp-for="Bedrooms" class="form-control" type="number" min="0">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label asp-for="Bathrooms" class="form-label">Bathrooms</label>
+                    <input asp-for="Bathrooms" class="form-control" type="number" min="0">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label asp-for="SquareFeet" class="form-label">Square Feet</label>
+                    <input asp-for="SquareFeet" class="form-control" type="number" step="0.01" min="0">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label asp-for="YearBuilt" class="form-label">Year Built</label>
+                    <input asp-for="YearBuilt" class="form-control" type="number">
+                </div>
+            </div>
+            
+            <!-- Amenities -->
+            <h5 class="border-bottom pb-2 mb-3 mt-3">Amenities</h5>
+            <div class="row mb-4">
+                @foreach (var amenity in amenities)
+                {
+                    var isChecked = Model.SelectedAmenityIds?.Contains(amenity.Id) == true;
+                    <div class="col-md-3 col-6 mb-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="SelectedAmenityIds" 
+                                   value="@amenity.Id" id="amenity-@amenity.Id" @(isChecked ? "checked" : "")>
+                            <label class="form-check-label" for="amenity-@amenity.Id">
+                                @amenity.Name
+                            </label>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Update Property
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

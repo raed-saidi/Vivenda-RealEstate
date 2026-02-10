@@ -1,0 +1,383 @@
+@model IEnumerable<PropertyDto>
+@{
+    ViewData["Title"] = "Properties";
+    var search = ViewBag.Search as PropertySearchDto ?? new PropertySearchDto();
+    var categories = ViewBag.Categories as IEnumerable<CategoryDto> ?? Enumerable.Empty<CategoryDto>();
+}
+
+<style>
+    .page-header {
+        background: #fff;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 2rem 0;
+    }
+
+    .page-header h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #111;
+        margin: 0;
+    }
+
+    .page-header p {
+        color: #666;
+        margin: 0.25rem 0 0;
+        font-size: 0.9375rem;
+    }
+
+    .properties-section {
+        padding: 2rem 0;
+        background: #fafafa;
+    }
+
+    /* Filter Sidebar */
+    .filter-card {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 1.25rem;
+        position: sticky;
+        top: 80px;
+    }
+
+    .filter-title {
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-title i { color: #2563eb; }
+
+    .filter-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .filter-label {
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: #111;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .filter-input,
+    .filter-select {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        background: #fff;
+    }
+
+    .filter-input:focus,
+    .filter-select:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+    }
+
+    .filter-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+
+    .btn-filter {
+        width: 100%;
+        padding: 0.625rem;
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        margin-bottom: 0.5rem;
+    }
+
+    .btn-filter:hover { background: #1d4ed8; }
+
+    .btn-clear {
+        width: 100%;
+        padding: 0.625rem;
+        background: transparent;
+        color: #666;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .btn-clear:hover { background: #f5f5f5; color: #111; }
+
+    /* Results Header */
+    .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .results-count {
+        font-size: 0.9375rem;
+        color: #666;
+    }
+
+    .results-count strong {
+        color: #111;
+        font-weight: 600;
+    }
+
+    /* Property Card */
+    .property-card {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.2s ease;
+        height: 100%;
+    }
+
+    .property-card:hover {
+        border-color: #ddd;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        transform: translateY(-2px);
+    }
+
+    .property-card .img-wrapper {
+        position: relative;
+        height: 180px;
+        overflow: hidden;
+    }
+
+    .property-card .img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .property-card:hover .img-wrapper img { transform: scale(1.03); }
+
+    .property-card .badge-type {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        font-size: 0.625rem;
+        font-weight: 600;
+        padding: 0.3rem 0.6rem;
+        border-radius: 50px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-sale { background: #dcfce7; color: #166534; }
+    .badge-rent { background: #dbeafe; color: #1e40af; }
+
+    .property-card .card-body { padding: 1rem; }
+
+    .property-price {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #111;
+        margin-bottom: 0.125rem;
+    }
+
+    .property-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 0.125rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .property-location {
+        font-size: 0.75rem;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-bottom: 0.625rem;
+    }
+
+    .property-location i { color: #999; font-size: 0.6875rem; }
+
+    .property-features {
+        display: flex;
+        gap: 0.875rem;
+        padding-top: 0.625rem;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.75rem;
+        color: #666;
+    }
+
+    .feature-item i { color: #999; font-size: 0.6875rem; }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+    }
+
+    .empty-state i {
+        font-size: 2.5rem;
+        color: #ddd;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        color: #666;
+        font-size: 0.9375rem;
+    }
+</style>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <h1>Browse Properties</h1>
+        <p>Find your perfect home from our listings</p>
+    </div>
+</div>
+
+<!-- Properties Section -->
+<section class="properties-section">
+    <div class="container">
+        <div class="row">
+            <!-- Filters Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="filter-card">
+                    <h2 class="filter-title">
+                        <i class="fas fa-sliders-h"></i> Filters
+                    </h2>
+
+                    <form asp-controller="Properties" asp-action="Index" method="get">
+                        <div class="filter-group">
+                            <label class="filter-label">Search</label>
+                            <input type="text" class="filter-input" name="keyword" value="@search.Keyword" placeholder="Keyword...">
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Listing Type</label>
+                            <select class="filter-select" name="listingType">
+                                <option value="">All Types</option>
+                                <option value="Sale" selected="@(search.ListingType == "Sale")">For Sale</option>
+                                <option value="Rent" selected="@(search.ListingType == "Rent")">For Rent</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Property Type</label>
+                            <select class="filter-select" name="propertyType">
+                                <option value="">All</option>
+                                <option value="House" selected="@(search.PropertyType == "House")">House</option>
+                                <option value="Apartment" selected="@(search.PropertyType == "Apartment")">Apartment</option>
+                                <option value="Condo" selected="@(search.PropertyType == "Condo")">Condo</option>
+                                <option value="Villa" selected="@(search.PropertyType == "Villa")">Villa</option>
+                                <option value="Commercial" selected="@(search.PropertyType == "Commercial")">Commercial</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">City</label>
+                            <input type="text" class="filter-input" name="city" value="@search.City" placeholder="Enter city">
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Price Range</label>
+                            <div class="filter-row">
+                                <input type="number" class="filter-input" name="minPrice" value="@search.MinPrice" placeholder="Min">
+                                <input type="number" class="filter-input" name="maxPrice" value="@search.MaxPrice" placeholder="Max">
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Bedrooms</label>
+                            <div class="filter-row">
+                                <input type="number" class="filter-input" name="minBedrooms" value="@search.MinBedrooms" placeholder="Min">
+                                <input type="number" class="filter-input" name="maxBedrooms" value="@search.MaxBedrooms" placeholder="Max">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-filter">
+                            <i class="fas fa-search me-1"></i> Apply Filters
+                        </button>
+                        <a asp-controller="Properties" asp-action="Index" class="btn-clear">Clear All</a>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Properties Grid -->
+            <div class="col-lg-9">
+                <div class="results-header">
+                    <span class="results-count"><strong>@Model.Count()</strong> properties found</span>
+                </div>
+
+                @if (!Model.Any())
+                {
+                    <div class="empty-state">
+                        <i class="fas fa-home"></i>
+                        <h3>No properties found</h3>
+                        <p>Try adjusting your filters or search criteria.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="row g-3">
+                        @foreach (var property in Model)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="property-card">
+                                    <div class="img-wrapper">
+                                        <img src="@(property.MainImageUrl ?? "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400")" alt="@property.Title">
+                                        <span class="badge-type @(property.ListingType == "Sale" ? "badge-sale" : "badge-rent")">
+                                            @(property.ListingType == "Sale" ? "For Sale" : "For Rent")
+                                        </span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="property-price">$@property.Price.ToString("N0")</div>
+                                        <h3 class="property-title">@property.Title</h3>
+                                        <p class="property-location">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            @property.City, @property.State
+                                        </p>
+                                        <div class="property-features">
+                                            <span class="feature-item"><i class="fas fa-bed"></i> @property.Bedrooms</span>
+                                            <span class="feature-item"><i class="fas fa-bath"></i> @property.Bathrooms</span>
+                                            <span class="feature-item"><i class="fas fa-ruler-combined"></i> @property.SquareFeet</span>
+                                        </div>
+                                    </div>
+                                    <a href="/Properties/Details/@property.Id" class="stretched-link"></a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
