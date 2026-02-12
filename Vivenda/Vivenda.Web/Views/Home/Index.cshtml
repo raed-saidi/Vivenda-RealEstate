@@ -525,30 +525,6 @@
     </div>
 </section>
 
-<!-- CATEGORIES SECTION -->
-<section class="section" style="background: #fafafa;">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">Browse by Category</h2>
-            <p class="section-subtitle">Find properties that match your needs and lifestyle</p>
-        </div>
-        <div class="row g-3">
-            @foreach (var cat in Model.Categories)
-            {
-                <div class="col-6 col-md-3">
-                    <a href="/Properties?categoryId=@cat.Id" class="category-card">
-                        <div class="icon">
-                            <i class="@(cat.IconClass ?? "fas fa-home")"></i>
-                        </div>
-                        <div class="name">@cat.Name</div>
-                        <div class="count">Browse properties</div>
-                    </a>
-                </div>
-            }
-        </div>
-    </div>
-</section>
-
 <!-- FEATURED PROPERTIES -->
 @if (Model.FeaturedProperties.Any())
 {
