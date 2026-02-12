@@ -4,7 +4,16 @@
     var relatedProperties = ViewBag.RelatedProperties as IEnumerable<PropertyDto> ?? Enumerable.Empty<PropertyDto>();
 }
 
+<style>
+    /* Override Bootstrap primary color for this page */
+    .text-primary {
+        color: #b8800a !important;
+    }
+    /* ... rest of the CSS above ... */
+</style>
+
 <section class="py-5">
+    <!-- rest of your existing HTML -->
     <div class="container">
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="mb-4">
@@ -20,7 +29,7 @@
             <div class="col-lg-8">
                 <!-- Property Images -->
                 <div class="card shadow-sm mb-4">
-                    <img src="@(Model.MainImageUrl ?? "https://via.placeholder.com/800x500?text=No+Image")" 
+                   <img src="@(Model.MainImageUrl ?? "https://via.placeholder.com/800x500?text=No+Image")" 
                          class="card-img-top" alt="@Model.Title" style="max-height: 500px; object-fit: cover;">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
@@ -41,7 +50,7 @@
                                 </p>
                             </div>
                             <div class="text-end">
-                                <h3 class="text-primary mb-0">$@Model.Price.ToString("N0")</h3>
+                                <h3 class="text-primary mb-0">@Model.Price.ToString("N0") TND</h3>
                                 @if (Model.ListingType == "Rent")
                                 {
                                     <small class="text-muted">/month</small>
@@ -87,9 +96,7 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <hr>
-                        
                         <div class="row">
                             <div class="col-md-6">
                                 <table class="table table-borderless">
@@ -158,8 +165,9 @@
             <div class="col-lg-4">
                 <!-- Agent Info -->
                 <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header text-white" style="background-color: #d4941e;">
                         <h5 class="mb-0"><i class="fas fa-user me-2"></i>Listed By</h5>
+                        </div>
                     </div>
                     <div class="card-body text-center">
                         <img src="https://via.placeholder.com/100x100?text=Agent" 
@@ -167,10 +175,10 @@
                         <h5>@Model.UserName</h5>
                         <p class="text-muted">Property Agent</p>
                         <div class="d-grid gap-2">
-                            <a href="tel:+1234567890" class="btn btn-outline-primary">
+                            <a href="tel:+1234567890" class="btn" style="color:  #d4941e; border: 2px solid  #d4941e background: transparent;">
                                 <i class="fas fa-phone me-2"></i>Call Now
                             </a>
-                            <a href="mailto:agent@vivenda.com" class="btn btn-primary">
+                            <a href="mailto:agent@vivenda.com" class="btn text-white" style="background-color:  #d4941e; border-color:  #d4941e;">
                                 <i class="fas fa-envelope me-2"></i>Send Email
                             </a>
                         </div>

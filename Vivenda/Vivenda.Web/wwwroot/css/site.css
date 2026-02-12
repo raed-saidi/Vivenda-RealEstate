@@ -1,6 +1,6 @@
 /* Site-wide styles */
 :root {
-    --primary-color: #2563eb;
+    --primary-color: #d4941e;    <!-- New golden color -->
     --secondary-color: #64748b;
     --success-color: #10b981;
     --danger-color: #ef4444;
@@ -47,7 +47,7 @@ body {
 }
 
 .btn-primary:hover {
-    background-color: #1d4ed8;
+    background-color: #b8800a;   <!-- Darker golden -->
 }
 
 .btn-success {
