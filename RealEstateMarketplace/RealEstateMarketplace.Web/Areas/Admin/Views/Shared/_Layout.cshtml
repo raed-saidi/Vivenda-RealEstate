@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-brand">
+                <i class="fas fa-home"></i> Real Estate Admin
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="/Admin/Dashboard" class="sidebar-menu-link">
+                        <i class="fas fa-th-large sidebar-menu-icon"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="/Admin/Properties" class="sidebar-menu-link">
+                        <i class="fas fa-building sidebar-menu-icon"></i>
+                        <span>Properties</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="/Admin/Categories" class="sidebar-menu-link">
+                        <i class="fas fa-list sidebar-menu-icon"></i>
+                        <span>Categories</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="/Admin/Users" class="sidebar-menu-link">
+                        <i class="fas fa-users sidebar-menu-icon"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="/Admin/Inquiries" class="sidebar-menu-link">
+                        <i class="fas fa-envelope sidebar-menu-icon"></i>
+                        <span>Messages</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="/Admin/Settings" class="sidebar-menu-link">
+                        <i class="fas fa-cog sidebar-menu-icon"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="/" class="sidebar-menu-link">
+                        <i class="fas fa-globe sidebar-menu-icon"></i>
+                        <span>View Site</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="admin-content">
+            <!-- Header -->
+            <header class="admin-header">
+                <button class="btn btn-icon" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="header-search">
+                    <input type="text" placeholder="Search..." />
+                </div>
+
+                <div class="header-actions">
+                    <div class="notification-badge">
+                        <i class="fas fa-bell" style="font-size: 20px; cursor: pointer;"></i>
+                        @if (ViewBag.UnreadCount > 0)
+                        {
+                            <span class="badge">@ViewBag.UnreadCount</span>
+                        }
+                    </div>
+
+                    <div class="user-dropdown">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span>@User.Identity?.Name</span>
+                    </div>
+
+                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="page-content">
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> @TempData["Success"]
+                    </div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i> @TempData["Error"]
+                    </div>
+                }
+
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/js/site.js"></script>
+    <script src="~/js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,188 @@
+@model IEnumerable<RealEstateMarketplace.BLL.DTOs.InquiryDto>
+@{
+    ViewData["Title"] = "Messages & Inquiries";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-0">Messages & Inquiries</h1>
+        <p class="text-muted mb-0">Manage customer inquiries and messages</p>
+    </div>
+    <div>
+        @if (ViewBag.UnreadCount > 0)
+        {
+            <span class="badge bg-danger fs-6">@ViewBag.UnreadCount Unread</span>
+        }
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="btn-group" role="group">
+            <a href="@Url.Action("Index")" class="btn @(ViewBag.Filter == null ? "btn-primary" : "btn-outline-primary")">
+                <i class="fas fa-inbox me-1"></i> All Messages
+            </a>
+            <a href="@Url.Action("Index", new { filter = "unread" })" class="btn @(ViewBag.Filter == "unread" ? "btn-primary" : "btn-outline-primary")">
+                <i class="fas fa-envelope me-1"></i> Unread
+            </a>
+            <a href="@Url.Action("Index", new { filter = "read" })" class="btn @(ViewBag.Filter == "read" ? "btn-primary" : "btn-outline-primary")">
+                <i class="fas fa-envelope-open me-1"></i> Read
+            </a>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- Bulk Actions -->
+<form id="bulkForm" method="post">
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <div>
+                <input type="checkbox" id="selectAll" class="form-check-input me-2">
+                <label for="selectAll" class="form-check-label">Select All</label>
+            </div>
+            <div class="btn-group">
+                <button type="submit" formaction="@Url.Action("BulkMarkAsRead")" class="btn btn-sm btn-outline-primary" disabled id="btnMarkRead">
+                    <i class="fas fa-check me-1"></i> Mark as Read
+                </button>
+                <button type="submit" formaction="@Url.Action("BulkDelete")" class="btn btn-sm btn-outline-danger" disabled id="btnDelete" 
+                        onclick="return confirm('Delete selected messages?')">
+                    <i class="fas fa-trash me-1"></i> Delete Selected
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No messages found</p>
+                </div>
+            }
+            else
+            {
+                <div class="list-group list-group-flush">
+                    @foreach (var inquiry in Model)
+                    {
+                        <div class="list-group-item list-group-item-action @(!inquiry.IsRead ? "bg-light border-start border-primary border-4" : "")">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <input type="checkbox" name="ids" value="@inquiry.Id" class="form-check-input message-checkbox">
+                                </div>
+                                <a href="@Url.Action("Details", new { id = inquiry.Id })" class="text-decoration-none flex-grow-1 text-dark">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1 @(!inquiry.IsRead ? "fw-bold" : "")">
+                                                @if (!inquiry.IsRead)
+                                                {
+                                                    <i class="fas fa-circle text-primary me-1" style="font-size: 8px;"></i>
+                                                }
+                                                @inquiry.Subject
+                                            </h6>
+                                            <p class="mb-1 text-muted small">
+                                                <i class="fas fa-user me-1"></i> @(inquiry.SenderName ?? "Anonymous")
+                                                @if (!string.IsNullOrEmpty(inquiry.SenderEmail))
+                                                {
+                                                    <span class="ms-2"><i class="fas fa-envelope me-1"></i> @inquiry.SenderEmail</span>
+                                                }
+                                            </p>
+                                            <p class="mb-0 text-muted small">
+                                                <i class="fas fa-home me-1"></i> Property: @inquiry.PropertyTitle
+                                            </p>
+                                        </div>
+                                        <div class="text-end">
+                                            <small class="text-muted">@inquiry.CreatedAt.ToString("MMM dd, yyyy")</small>
+                                            <br>
+                                            <small class="text-muted">@inquiry.CreatedAt.ToString("HH:mm")</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="ms-3">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-light" data-bs-toggle="dropdown">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="@Url.Action("Details", new { id = inquiry.Id })">
+                                                    <i class="fas fa-eye me-2"></i> View
+                                                </a>
+                                            </li>
+                                            @if (inquiry.IsRead)
+                                            {
+                                                <li>
+                                                    <form method="post" asp-action="MarkAsUnread" asp-route-id="@inquiry.Id" class="d-inline">
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="fas fa-envelope me-2"></i> Mark as Unread
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <form method="post" asp-action="MarkAsRead" asp-route-id="@inquiry.Id" class="d-inline">
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="fas fa-envelope-open me-2"></i> Mark as Read
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            }
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <form method="post" asp-action="Delete" asp-route-id="@inquiry.Id" class="d-inline">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Delete this message?')">
+                                                        <i class="fas fa-trash me-2"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.message-checkbox');
+            const btnMarkRead = document.getElementById('btnMarkRead');
+            const btnDelete = document.getElementById('btnDelete');
+            
+            function updateButtons() {
+                const checked = document.querySelectorAll('.message-checkbox:checked').length;
+                btnMarkRead.disabled = checked === 0;
+                btnDelete.disabled = checked === 0;
+            }
+            
+            selectAll.addEventListener('change', function() {
+                checkboxes.forEach(cb => cb.checked = this.checked);
+                updateButtons();
+            });
+            
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', updateButtons);
+            });
+        });
+    </script>
+}
