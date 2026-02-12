@@ -120,9 +120,9 @@ using (var scope = app.Services.CreateScope())
         {
             UserName = agentEmail,
             Email = agentEmail,
-            FirstName = "John",
-            LastName = "Smith",
-            PhoneNumber = "+1 555-123-4567",
+            FirstName = "Raed",
+            LastName = "Saidi",
+            PhoneNumber = "+216 99 584 320",
             EmailConfirmed = true,
             IsActive = true
         };
